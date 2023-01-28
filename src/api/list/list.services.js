@@ -26,6 +26,5 @@ export function updateList(id, list, user) {
 
 export function deleteList(id, user) {
   const createdBy = user._id;
-  const deleteList = List.findOneAndDelete({_id : id, createdBy : createdBy});
-  return deleteList;
+  return List.findOneAndDelete({_id : id, createdBy : createdBy});;
 }
