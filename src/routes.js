@@ -1,9 +1,9 @@
-import favs from './api/favs/index.js';
-import users from './api/users/index.js';
+import list from './api/list/index.js';
+import user from './api/user/index.js';
 
 function routes (app) {
-  app.use('/api/favs', favs);
-  app.use('/api/users', users);
+  app.use('/api/favs', list);
+  app.use('/api/users', user);
 }
 
 export default routes;
