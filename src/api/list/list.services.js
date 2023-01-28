@@ -20,8 +20,8 @@ export function createList(list, user) {
 
 export function updateList(id, list, user) {
   const createdBy = user._id;
-  const updateList = List.findOneAndUpdate({_id : id, createdBy : createdBy}, list, {new:true});
-  return updateList;
+  console.log(list);
+  return List.findOneAndUpdate({_id : id, createdBy : createdBy}, {$push: {items : list}});
 }
 
 export function deleteList(id, user) {

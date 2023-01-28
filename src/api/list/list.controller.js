@@ -52,6 +52,9 @@ export async function handleUpdateList(req,res,next) {
   const user = req.user;
   try {
     const update = await updateList(id, data, user);
+    if(!update){
+      return res.status(404).json({message:"List not found"});
+    }
     return res.status(201).json(update);
 
   } catch (error) {
