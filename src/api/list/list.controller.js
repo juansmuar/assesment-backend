@@ -4,7 +4,7 @@ import {
   createList,
   updateList,
   deleteList,
-} from './product.services'
+} from './list.services.js'
 
 export async function handleGetAllLists(req, res){
   try {

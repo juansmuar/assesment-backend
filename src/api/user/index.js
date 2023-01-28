@@ -1,6 +1,6 @@
 import{ Router } from 'express';
 import { handleGetAllUsers,
-  getUserById,
+  handleGetUser,
   handleCreateUser ,
   handleUpdateUser,
   handleDeleteUser
@@ -10,7 +10,7 @@ const router = Router();
 
 //get users (admin only)
 router.get('/', handleGetAllUsers);
-router.get('/:id', getUserById);
+router.get('/:id', handleGetUser);
 
 router.post('/', handleCreateUser);
 router.patch('/:id', handleUpdateUser);

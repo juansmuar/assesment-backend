@@ -1,4 +1,4 @@
-import User  from './user.model';
+import User  from './user.model.js';
 
 export function getAllUsers(){
   return User.find();
@@ -6,6 +6,11 @@ export function getAllUsers(){
 
 export function getUserById(id){
   const user = User.findById(id);
+  return user;
+}
+
+export function getUser(filter) {
+  const user = User.findOne(filter);
   return user;
 }
 

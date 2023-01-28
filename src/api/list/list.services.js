@@ -1,5 +1,4 @@
-import List, { ListDocument } from './product.model';
-import { DocumentDefinition } from "mongoose";
+import List from './list.model.js';
 
 export function getAllLists() {
   return List.find({})

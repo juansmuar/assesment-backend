@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-// import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 
 const UserSchema=new Schema({
   email:{
@@ -28,43 +28,39 @@ const UserSchema=new Schema({
     versionKey:false
   })
 
-  // UserSchema.virtual('userProfile').get(function fulldataUser(){
-  //   const {  email, role} = this.user
-  //   return {
-  //     email,
-  //     role,
-  // })
+  UserSchema.virtual('userProfile').get(function() {
+    const {email, role} = this
+    return {
+      email, 
+      role } 
+  });
 
   // implementing bcrypt
-  // UserSchema.pre('save', async function save(next){
-  //   const user = this.user;
-  //   try {
-  //     if(!user.isModified('password')){
-  //       return next()
-  //     }
-  //     const salt = await bcrypt.genSalt(10);
-  //     const hash = await bcrypt.hash(user.password, salt);
+  UserSchema.pre('save', async function(next){
+    try {
+      if(!this.password){
+        return next()
+      }
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash(this.password, salt);
+      this.password = hash;
+    } catch (error) {
+      next(error);
+    }
+  });
 
-  //     user.password = hash;
+  async function comparePassword(candidatePassword, next) {
+    try {
+      const isMatch = await bcrypt.compare(candidatePassword, this.password);
+      console.log(isMatch);
+      return isMatch;
+    } catch (error) {
+      next(error)
+      return false;
+    }
+  }
 
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // })
-
-  // async function comparePassword(candidatePassword, next) {
-  //   const user = this.user ;
-  //   try {
-  //     const isMatch = await bcrypt.compare(candidatePassword,user.password);
-  //     console.log(isMatch);
-  //     return isMatch;
-  //   } catch (error) {
-  //     next(error)
-  //     return false;
-  //   }
-  // }
-
-  // UserSchema.methods.comparePassword = comparePassword;
+  UserSchema.methods.comparePassword = comparePassword;
 
   const User = model('User',UserSchema);
 
