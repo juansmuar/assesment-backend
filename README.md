@@ -22,7 +22,7 @@ POST to /api/favs
 GET to /api/favs/:id
 DELETE to /api/favs/:id
 
-##Questions
+## Questions
 
 1. Indicate which are the parts of the following url:
    https://backend.mega-app.com.co:8080/api/articles/search?docid=1020&hl=en#dayone

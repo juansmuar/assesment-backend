@@ -7,8 +7,9 @@ import {
 } from './list.services.js'
 
 export async function handleGetAllLists(req, res){
+  const user = req.user;
   try {
-    const lists = await getAllLists();
+    const lists = await getAllLists(user);
     return res.status(200).json(lists);
 
   } catch (error) {
@@ -19,8 +20,9 @@ export async function handleGetAllLists(req, res){
 
 export async function handleGetListById(req,res,next) {
   const { id } = req.params;
+  const user = req.user;
   try {
-    const getList = await getListById(id);
+    const getList = await getListById(id, user);
 
     if (!getList) {
       return res.status(404).json({ message: 'List not found' });
@@ -34,8 +36,9 @@ export async function handleGetListById(req,res,next) {
 
 export async function handleCreateList(req,res,next){
   const data = req.body;
+  const user = req.user;
   try {
-    const list = await createList(data);
+    const list = await createList(data, user);
     return res.status(201).json(list);
 
   } catch (error) {
@@ -46,8 +49,9 @@ export async function handleCreateList(req,res,next){
 export async function handleUpdateList(req,res,next) {
   const data =req.body;
   const { id }=req.params;
+  const user = req.user;
   try {
-    const update = await updateList(id,data);
+    const update = await updateList(id, data, user);
     return res.status(201).json(update);
 
   } catch (error) {
@@ -57,8 +61,9 @@ export async function handleUpdateList(req,res,next) {
 
 export async function handleDeleteList(req,res,next) {
   const { id } = req.params;
+  const user = req.user;
   try {
-    const list = await getListById(id);
+    const list = await getListById(id, user);
 
     if(!list){
       return res.status(404).json({message:"List not found"});
