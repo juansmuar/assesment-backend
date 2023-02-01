@@ -1,23 +1,30 @@
 import List from './list.model.js';
 
-export function getAllLists() {
-  return List.find({})
+export function getAllLists(user) {
+  const createdBy = user._id;
+  return List.find({ createdBy : createdBy})
 }
 
-export function getListById(id) {
-  return List.findById(id).populate({path:'createdBy'})
+// Buscar lista por id
+export function getListById(id, user) {
+  const createdBy = user._id;
+  return List.findOne({_id : id, createdBy : createdBy})
 }
 
-export function createList(list) {
+// Crear lista agregando el creador
+export function createList(list, user) {
+  const createdBy = user._id;
+  list["createdBy"]= createdBy; 
   return List.create(list);
 }
 
-export function updateList(id, list) {
-  const updateList = list.findByIdAndUpdate(id, list, {new:true});
-  return updateList;
+export function updateList(id, list, user) {
+  const createdBy = user._id;
+  console.log(list);
+  return List.findOneAndUpdate({_id : id, createdBy : createdBy}, {$push: {items : list}});
 }
 
-export function deleteList(id) {
-  const deleteList = List.findByIdAndDelete(id);
-  return deleteList;
+export function deleteList(id, user) {
+  const createdBy = user._id;
+  return List.findOneAndDelete({_id : id, createdBy : createdBy});;
 }

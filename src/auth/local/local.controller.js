@@ -5,23 +5,23 @@ import { signToken } from '../auth.services.js';
 export async function handleLoginUser(req, res, next) {
   const { email, password } = req.body;
 
-  console.log(req.body);
+  if (!email || !password) {
+    return res.status(400).json({
+      message: "Username or Password must not be null",
+    })
+  }
 
   try {
     const user = await getUser({ email });
     if (!user) {
-      return res.status(404).json({ message: "Invalid email" });
+      return res.status(404).json({ message: "Invalid email or password" });
     }
     const validPassword = await user.comparePassword(password)
     if (!validPassword) {
-      return res.status(401).json({ message: "Invalid password" });
+      return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    console.log("Validid password");
-    console.log(user.userProfile);
     const payload = user.userProfile;
-    console.log(payload);
-    
 
     //Generate JWT
     const token = signToken(payload);

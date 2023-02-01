@@ -5,13 +5,20 @@ const ListSchema = new Schema({
     type: String,
     required: [true, 'Please provide a name'],
   },
-  favs : {
-    type : Array,
-  },
+  items : [{
+    title: {
+      type: String,
+    },
+    description: {
+      type: String,
+    },
+    link: {
+      type: String,
+    }
+  }],
   createdBy: {
     type: Schema.ObjectId,
     ref: 'User',
-    // required: true,
   }
 }, {
   timestamps: true,
